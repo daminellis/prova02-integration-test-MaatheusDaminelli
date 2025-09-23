@@ -23,38 +23,38 @@ describe('API da Loja Falsa', () => {
 
   describe('PRODUTOS', () => {
     it('Obter produto específico pelo ID', async () => {
-        const response = await p
-        .spec()
-        .get(`${baseUrl}/products/1`)
-        .withHeaders('User-Agent', 'pactum-test')
-        .expectStatus(StatusCodes.OK)
-        .expectJsonLike({
-          id: 1,
-          title: /.+/, // Verifica se o título não está vazio
-          price: /.+/, // Verifica se o preço não está vazio
-          category: /.+/, // Verifica se a categoria não está vazia
+        await p
+          .spec()
+          .get(`${baseUrl}/products/1`)
+          .withHeaders('User-Agent', 'pactum-test')
+          .expectStatus(StatusCodes.OK)
+          .expectJsonLike({
+            id: 1,
+            title: /.+/,
+            price: /.+/,
+            category: /.+/,
         });
     });
   });
 
   describe('PRODUTOS', () => {
     it('Criar um novo produto', async () => {
-        await p
+    await p
         .spec()
         .post(`${baseUrl}/products`)
         .withHeaders('Content-Type', 'application/json')
         .withJson({
-          title: 'Produto de Teste',
-          price: 99.99,
-          description: 'Descrição do produto de teste',
-          image: 'https://i.pravatar.cc',
-          category: 'electronics'
+        title: 'Produto de Teste',
+        price: 99.99,
+        description: 'Descrição do produto de teste',
+        image: 'https://i.pravatar.cc',
+        category: 'electronics'
         })
         .expectStatus(StatusCodes.OK)
         .expectJsonLike({
-          title: 'Produto de Teste',
-          price: 99.99,
-          category: 'electronics'
+        title: 'Produto de Teste',
+        price: 99.99,
+        category: 'electronics'
         });
     });
   });
