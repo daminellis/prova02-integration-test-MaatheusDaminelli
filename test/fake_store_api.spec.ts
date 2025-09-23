@@ -23,9 +23,9 @@ describe('API da Loja Falsa', () => {
 
   describe('PRODUTOS', () => {
     it('Obter produto específico pelo ID', async () => {
-      await p
+        const response = await p
         .spec()
-        .get(`${baseUrl}/products/1`) // ID do produto
+        .get(`${baseUrl}/products/1`)
         .expectStatus(StatusCodes.OK)
         .expectJsonLike({
           id: 1,
