@@ -26,6 +26,7 @@ describe('API da Loja Falsa', () => {
         const response = await p
         .spec()
         .get(`${baseUrl}/products/1`)
+        .withHeaders('User-Agent', 'pactum-test')
         .expectStatus(StatusCodes.OK)
         .expectJsonLike({
           id: 1,
@@ -38,9 +39,10 @@ describe('API da Loja Falsa', () => {
 
   describe('PRODUTOS', () => {
     it('Criar um novo produto', async () => {
-      await p
+        await p
         .spec()
         .post(`${baseUrl}/products`)
+        .withHeaders('Content-Type', 'application/json')
         .withJson({
           title: 'Produto de Teste',
           price: 99.99,
