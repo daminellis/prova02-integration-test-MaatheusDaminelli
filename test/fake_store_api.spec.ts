@@ -20,4 +20,41 @@ describe('API da Loja Falsa', () => {
           .toss();
       });
   });
+
+  describe('PRODUTOS', () => {
+    it('Obter produto específico pelo ID', async () => {
+      await p
+        .spec()
+        .get(`${baseUrl}/products/1`) // ID do produto
+        .expectStatus(StatusCodes.OK)
+        .expectJsonLike({
+          id: 1,
+          title: /.+/, // Verifica se o título não está vazio
+          price: /.+/, // Verifica se o preço não está vazio
+          category: /.+/, // Verifica se a categoria não está vazia
+        });
+    });
+  });
+
+  describe('PRODUTOS', () => {
+    it('Criar um novo produto', async () => {
+      await p
+        .spec()
+        .post(`${baseUrl}/products`)
+        .withJson({
+          title: 'Produto de Teste',
+          price: 99.99,
+          description: 'Descrição do produto de teste',
+          image: 'https://i.pravatar.cc',
+          category: 'electronics'
+        })
+        .expectStatus(StatusCodes.OK)
+        .expectJsonLike({
+          title: 'Produto de Teste',
+          price: 99.99,
+          category: 'electronics'
+        });
+    });
+  });
+
 });
