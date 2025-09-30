@@ -141,6 +141,7 @@ describe('Restful-booker API - Deletar Reserva', () => {
 
 describe('Restful-booker API - Deletar Reserva', () => {
   it('Deve deletar uma reserva existente', async () => {
+    console.log(`Deletando ID: $S{createdBookingId}`);
     await spec()
       .delete(`${baseUrl}/booking/$S{createdBookingId}`)
       .withHeaders({
