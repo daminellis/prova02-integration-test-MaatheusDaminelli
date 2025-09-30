@@ -28,11 +28,11 @@ describe('Restful-booker API - Buscar Detalhes da Reserva', () => {
         firstname: /\w+/,
         lastname: /\w+/,
         totalprice: /\d+/,
-        depositpaid: expect.any(Boolean),
+        depositpaid: true, // ou false, dependendo do valor esperado
         bookingdates: {
           checkin: /\d{4}-\d{2}-\d{2}/,
           checkout: /\d{4}-\d{2}-\d{2}/
-        }
-      });
+      }
+    });
   });
 });
