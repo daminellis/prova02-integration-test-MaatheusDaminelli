@@ -54,13 +54,75 @@ describe('Restful-booker API - Buscar Detalhes da Reserva', () => {
   });
 });
 
-describe('Restful-booker API - Deletar Reserva', () => {
-  it('Deve deletar a reserva com sucesso', async () => {
+describe('Restful-booker API - Criar Reserva', () => {
+  it('Deve criar uma nova reserva', async () => {
     await spec()
-      .delete(`${baseUrl}/booking/$S{firstBookingId}`)
+      .post(`${baseUrl}/booking`)
       .withHeaders({
-        'Authorization': 'Bearer $S{authToken}'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       })
-      .expectStatus(StatusCodes.CREATED);
+      .withBody({
+        firstname: 'Jim',
+        lastname: 'Brown',
+        totalprice: 111,
+        depositpaid: true,
+        bookingdates: {
+          checkin: '2018-01-01',
+          checkout: '2019-01-01'
+        },
+        additionalneeds: 'Breakfast'
+      })
+      .expectStatus(StatusCodes.OK)
+      .expectJsonLike({
+        bookingid: /\d+/,
+        booking: {
+          firstname: 'Jim',
+          lastname: 'Brown',
+          totalprice: 111,
+          depositpaid: true,
+          bookingdates: {
+            checkin: '2018-01-01',
+            checkout: '2019-01-01'
+          },
+          additionalneeds: 'Breakfast'
+        }
+      })
+      .stores('createdBookingId', 'bookingid');
+  });
+});
+
+describe('Restful-booker API - Atualizar Reserva', () => {
+  it('Deve atualizar uma reserva existente', async () => {
+    await spec()
+      .put(`${baseUrl}/booking/{createdBookingId}`)
+      .withHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': 'token=$S{authToken}'
+      })
+      .withBody({
+        firstname: 'James',
+        lastname: 'Brown',
+        totalprice: 111,
+        depositpaid: true,
+        bookingdates: {
+          checkin: '2018-01-01',
+          checkout: '2019-01-01'
+        },
+        additionalneeds: 'Breakfast'
+      })
+      .expectStatus(StatusCodes.OK)
+      .expectJsonLike({
+        firstname: 'James',
+        lastname: 'Brown',
+        totalprice: 111,
+        depositpaid: true,
+        bookingdates: {
+          checkin: '2018-01-01',
+          checkout: '2019-01-01'
+        },
+        additionalneeds: 'Breakfast'
+      });
   });
 });
