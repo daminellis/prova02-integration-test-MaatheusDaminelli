@@ -95,7 +95,7 @@ describe('Restful-booker API - Criar Reserva', () => {
 describe('Restful-booker API - Atualizar Reserva', () => {
   it('Deve atualizar uma reserva existente', async () => {
     await spec()
-      .put(`${baseUrl}/booking/{createdBookingId}`)
+      .put(`${baseUrl}/booking/$S{createdBookingId}`)
       .withHeaders({
         'Content-Type': 'application/json',
         'Accept': 'application/json',
