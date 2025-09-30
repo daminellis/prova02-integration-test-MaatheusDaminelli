@@ -63,7 +63,7 @@ describe('Restful-booker API - Criar Reserva', () => {
         'Accept': 'application/json'
       })
       .withBody({
-        firstname: 'Jim',
+        firstname: 'joao',
         lastname: 'Brown',
         totalprice: 111,
         depositpaid: true,
@@ -71,13 +71,13 @@ describe('Restful-booker API - Criar Reserva', () => {
           checkin: '2018-01-01',
           checkout: '2019-01-01'
         },
-        additionalneeds: 'Breakfast'
+        additionalneeds: 'lanche'
       })
       .expectStatus(StatusCodes.OK)
       .expectJsonLike({
         bookingid: /\d+/,
         booking: {
-          firstname: 'Jim',
+          firstname: 'joao',
           lastname: 'Brown',
           totalprice: 111,
           depositpaid: true,
@@ -85,7 +85,7 @@ describe('Restful-booker API - Criar Reserva', () => {
             checkin: '2018-01-01',
             checkout: '2019-01-01'
           },
-          additionalneeds: 'Breakfast'
+          additionalneeds: 'lanche'
         }
       })
       .stores('createdBookingId', 'bookingid');
@@ -102,7 +102,7 @@ describe('Restful-booker API - Atualizar Reserva', () => {
         'Cookie': 'token=$S{authToken}'
       })
       .withBody({
-        firstname: 'James',
+        firstname: 'joze',
         lastname: 'Brown',
         totalprice: 111,
         depositpaid: true,
@@ -110,11 +110,11 @@ describe('Restful-booker API - Atualizar Reserva', () => {
           checkin: '2018-01-01',
           checkout: '2019-01-01'
         },
-        additionalneeds: 'Breakfast'
+        additionalneeds: 'lanche'
       })
       .expectStatus(StatusCodes.OK)
       .expectJsonLike({
-        firstname: 'James',
+        firstname: 'joze',
         lastname: 'Brown',
         totalprice: 111,
         depositpaid: true,
@@ -122,7 +122,19 @@ describe('Restful-booker API - Atualizar Reserva', () => {
           checkin: '2018-01-01',
           checkout: '2019-01-01'
         },
-        additionalneeds: 'Breakfast'
+        additionalneeds: 'lanche'
       });
+  });
+});
+
+describe('Restful-booker API - Deletar Reserva', () => {
+  it('Deve deletar uma reserva existente', async () => {
+    await spec()
+      .delete(`${baseUrl}/booking/$S{createdBookingId}`) // Substitui o ID corretamente
+      .withHeaders({
+        'Content-Type': 'application/json',
+        'Cookie': 'token=$S{authToken}' // Usa o token armazenado
+      })
+      .expectStatus(StatusCodes.CREATED); // Verifica o status 201 (Created)
   });
 });
