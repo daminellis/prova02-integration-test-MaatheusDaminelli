@@ -130,11 +130,56 @@ describe('Restful-booker API - Atualizar Reserva', () => {
 describe('Restful-booker API - Deletar Reserva', () => {
   it('Deve deletar uma reserva existente', async () => {
     await spec()
-      .delete(`${baseUrl}/booking/$S{createdBookingId}`) // Substitui o ID corretamente
+      .delete(`${baseUrl}/booking/$S{createdBookingId}`)
       .withHeaders({
         'Content-Type': 'application/json',
-        'Cookie': 'token=$S{authToken}' // Usa o token armazenado
+        'Cookie': 'token=$S{authToken}'
       })
-      .expectStatus(StatusCodes.CREATED); // Verifica o status 201 (Created)
+      .expectStatus(StatusCodes.CREATED);
+  });
+});
+
+describe('Restful-booker API - Deletar Reserva', () => {
+  it('Deve deletar uma reserva existente', async () => {
+    await spec()
+      .delete(`${baseUrl}/booking/$S{createdBookingId}`)
+      .withHeaders({
+        'Content-Type': 'application/json',
+        'Cookie': 'token=$S{authToken}'
+      })
+      .expectStatus(StatusCodes.CREATED);
+  });
+});
+
+describe('Restful-booker API - Forçar Erros', () => {
+  it('Deve retornar erro ao tentar deletar uma reserva sem autenticação', async () => {
+    await spec()
+      .delete(`${baseUrl}/booking/$S{createdBookingId}`)
+      .withHeaders({
+        'Content-Type': 'application/json'
+      })
+      .expectStatus(StatusCodes.FORBIDDEN);
+  });
+
+  it('Deve retornar erro ao tentar atualizar uma reserva com ID inválido', async () => {
+    await spec()
+      .put(`${baseUrl}/booking/999999999`) 
+      .withHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': 'token=$S{authToken}'
+      })
+      .withBody({
+        firstname: 'James',
+        lastname: 'Brown',
+        totalprice: 111,
+        depositpaid: true,
+        bookingdates: {
+          checkin: '2018-01-01',
+          checkout: '2019-01-01'
+        },
+        additionalneeds: 'Breakfast'
+      })
+      .expectStatus(StatusCodes.METHOD_NOT_ALLOWED);
   });
 });
