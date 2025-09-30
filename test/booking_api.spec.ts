@@ -139,19 +139,6 @@ describe('Restful-booker API - Deletar Reserva', () => {
   });
 });
 
-describe('Restful-booker API - Deletar Reserva', () => {
-  it('Deve deletar uma reserva existente', async () => {
-    console.log(`Deletando ID: $S{createdBookingId}`);
-    await spec()
-      .delete(`${baseUrl}/booking/$S{createdBookingId}`)
-      .withHeaders({
-        'Content-Type': 'application/json',
-        'Cookie': 'token=$S{authToken}'
-      })
-      .expectStatus(StatusCodes.CREATED);
-  });
-});
-
 describe('Restful-booker API - Forçar Erros', () => {
   it('Deve retornar erro ao tentar deletar uma reserva sem autenticação', async () => {
     await spec()
